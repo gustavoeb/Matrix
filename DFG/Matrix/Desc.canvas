@@ -1,0 +1,34 @@
+// Created by kl2dfg (processFunction)
+{
+  "objectType" : "Func",
+  "metadata" : {
+    "uiTooltip" : "Supported types:\n  this: Matrix\n  result: String\n"
+    },
+  "title" : "Desc",
+  "ports" : [
+    {
+      "objectType" : "Port",
+      "nodePortType" : "Out",
+      "name" : "this",
+      "execPortType" : "In",
+      "typeSpec" : "Matrix"
+      },
+    {
+      "objectType" : "Port",
+      "nodePortType" : "In",
+      "name" : "result",
+      "execPortType" : "Out",
+      "typeSpec" : "String"
+      }
+    ],
+  "extDeps" : {
+    "Matrix" : "*"
+    },
+  "presetGUID" : "4A733032898F14F08D47B6DC31BDE1A3",
+  "code" : "require Matrix;
+
+dfgEntry {
+  result = this.desc();
+}
+"
+  }

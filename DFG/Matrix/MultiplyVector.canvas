@@ -1,0 +1,41 @@
+// Created by kl2dfg (processFunction)
+{
+  "objectType" : "Func",
+  "metadata" : {
+    "uiTooltip" : "Supported types:\n  this: Matrix\n  vector: Scalar[]\n  result: Scalar[]\n"
+    },
+  "title" : "MultiplyVector",
+  "ports" : [
+    {
+      "objectType" : "Port",
+      "nodePortType" : "IO",
+      "name" : "this",
+      "execPortType" : "IO",
+      "typeSpec" : "Matrix"
+      },
+    {
+      "objectType" : "Port",
+      "nodePortType" : "Out",
+      "name" : "vector",
+      "execPortType" : "In",
+      "typeSpec" : "Scalar[]"
+      },
+    {
+      "objectType" : "Port",
+      "nodePortType" : "In",
+      "name" : "result",
+      "execPortType" : "Out",
+      "typeSpec" : "Scalar[]"
+      }
+    ],
+  "extDeps" : {
+    "Matrix" : "*"
+    },
+  "presetGUID" : "7A42872FFD001F4E99AC73F6FA3432D0",
+  "code" : "require Matrix;
+
+dfgEntry {
+  result = this.multiplyVector(vector);
+}
+"
+  }

@@ -1,0 +1,185 @@
+require Math;
+require Containers;
+require FileIO;
+
+struct Matrix
+{
+  Scalar longArray[];
+  Integer width;
+  Integer height;
+};
+
+function Matrix(Integer size) {
+  this.width = size;
+  this.height = size;
+  this.longArray.resize(size*size);
+}
+
+function Matrix(Integer height, Integer width) {
+  this.width = width;
+  this.height = height;
+  this.longArray.resize(width*height);
+}
+
+function Matrix.fromFile!(FilePath file) {
+  if(!file.exists) { setError('File does not exist.'); return; }
+  if(!file.extension) { setError('File extension not supported as a valid matrix input.'); return; }
+  TextReader reader = TextReader(file.string());
+  String row[] = reader.readLine().split(',');
+  reader.seek(0);
+  String all[] = reader.readAll().splitAny(',\n');
+  Scalar allScalars[];
+  for (Integer i = 0; i <= all.size - 1; i++) {
+      allScalars.push(all[i].toScalar);
+  }
+  this.width = row.size;
+  this.height = all.size/row.size;
+  this.longArray = allScalars;
+}
+
+function String Matrix.desc() {
+  String rows;
+  for (Integer j = 0; j <= this.height - 1; j++) {
+    String columns;
+    for (Integer i = 0; i <= this.width - 1; i++) {
+      columns = columns + this.longArray[(j)*this.width+i] + ' ';
+    }
+    rows = rows + '\n' + columns;
+  }
+  return rows;
+}
+
+function Matrix.setValue!(Integer index, Scalar value) {
+  this.longArray[index] = value;
+}
+
+function Matrix.setValue!(Integer set[], Scalar value) {
+  for (Integer i = 0; i <= set.size - 1; i++) {
+    this.longArray[set[i]] = value;
+  }
+}
+
+function Matrix.setValue!(Integer set[], Scalar value[]) {
+  if (set.size != value.size) { setError('Number of values and indices must match.'); return; };
+  for (Integer i = 0; i <= set.size - 1; i++) {
+    this.longArray[set[i]] = value[i];
+  }
+}
+
+function Matrix.setValue!(Integer rowIndex, Integer columnIndex, Scalar value) {
+  Integer index;
+  index = (rowIndex)*this.width+columnIndex;
+  this.longArray[index] = value;
+}
+
+function Scalar Matrix.getValue(Integer index) {
+  return this.longArray[index];
+}
+
+function Scalar Matrix.getValue(Integer rowIndex, Integer columnIndex) {
+  Integer index;
+  index = (rowIndex)*this.width+columnIndex;
+  return this.longArray[index];
+}
+
+function Scalar[] Matrix.getRow(Integer index) {
+  Scalar row[];
+  if (index > this.height) { setError('Row number exceeds matrix dimensions.'); return row;}
+  if (index < 0) { setError('Row number less then zero.'); return row; }
+  for (Integer i = 0; i <= this.width - 1; i++) {
+    row.push(this.longArray[(index)*this.width+i]);
+  }
+  return row;
+}
+
+function Matrix Matrix.getRows(Integer start, Integer end) {
+  Matrix empty_mat(0,0);
+  Scalar new_longArray[];
+  if (start > this.height || end > this.height) { setError('Row number exceeds matrix dimensions.'); return empty_mat;}
+  if (start < 0 || end < 0) { setError('Row number less then zero.'); return empty_mat; }
+  if (end < start) { 'Starting point is further then end point.'; return empty_mat;}
+  for (Integer j = start; j <= end-start; j++) {
+    for (Integer i = 0; i <= this.width - 1; i++) {
+      new_longArray.push(this.longArray[(j)*this.width+i]);
+    }
+  }
+  Matrix new_mat(end-start+1,this.width);
+  new_mat.longArray = new_longArray;
+  return new_mat;
+}
+
+function Scalar[] Matrix.getColumn(Integer index) {
+  Scalar column[];
+  if (index > this.height) { setError('Column number exceeds matrix dimensions.'); return column;}
+  if (index < 0) { setError('Column number less then zero.'); return column; }
+  for (Integer i = 0; i <= this.height - 1; i++) {
+    column.push(this.longArray[(i)*this.width+index]);
+  }
+  return column;
+}
+
+function Matrix Matrix.getColumns(Integer start, Integer end) {
+  Matrix empty_mat(0,0);
+  Scalar new_longArray[];
+  if (start > this.width || end > this.width) { setError('Row number exceeds matrix dimensions.'); return empty_mat;}
+  if (start < 0 || end < 0) { setError('Row number less then zero.'); return empty_mat; }
+  if (end < start) { 'Starting point is further then end point.'; return empty_mat;}
+  for (Integer j = start; j <= end-start; j++) {
+    for (Integer i = 0; i <= this.height - 1; i++) {
+      new_longArray.push(this.longArray[(i)*this.width+j]);
+    }
+  }
+  Matrix new_mat(end-start+1,this.height);
+  new_mat.longArray = new_longArray;
+  new_mat.transpose;
+  return new_mat;
+}
+
+function Matrix.transpose!() {
+  Integer height = this.width.clone;
+  Integer width = this.height.clone;
+  this.height = height;
+  this.width = width;
+
+  Scalar newArray[];
+  for (Integer j = 0; j <= this.height - 1; j++) {
+    for (Integer i = 0; i <= this.width - 1; i++) {
+      newArray.push(this.longArray[(i*height)+j]);
+    }
+  }
+  this.longArray = newArray;
+}
+
+function Matrix.multiplyScalar!(Scalar value) {
+  for (Integer i = 0; i <= this.longArray.size - 1; i++) {
+    this.longArray[i] = this.longArray[i] * value;
+  }
+}
+
+function Scalar[] Matrix.multiplyVector!(Scalar vector[]) {
+  Scalar newVector[];
+  if (vector.size != this.height) { setError('Matricies and vector dimentions do not match.'); return newVector; }
+  for (Integer i = 0; i <= this.width - 1; i++) {
+    Scalar dotProduct;
+    for (Integer h = 0; h <= vector.size - 1; h++) {
+      dotProduct += vector[h] * this.getValue(h,i);
+    }
+    newVector.push(dotProduct);
+  }
+  return newVector;
+}
+
+function Matrix.multiply!(Matrix mat) {
+  if (this.width != mat.height) { setError('Matricies dimentions do not match.'); return; }
+  Matrix new_mat(this.height, mat.width);
+  for (Integer j = 0; j <= new_mat.height - 1; j++) {
+    for (Integer i = 0; i <= new_mat.width - 1; i++) {
+      Scalar dotProduct;
+      for (Integer h = 0; h <= this.width - 1; h++) {
+        dotProduct += this.getValue(j,h) * mat.getValue(h,i);
+      }
+      new_mat.setValue(j, i, dotProduct);
+    }
+  }
+  this = new_mat;
+}

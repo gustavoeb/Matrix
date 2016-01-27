@@ -1,0 +1,27 @@
+// Created by kl2dfg (processFunction)
+{
+  "objectType" : "Func",
+  "metadata" : {
+    "uiTooltip" : "Supported types:\n  this: Matrix\n"
+    },
+  "title" : "Transpose",
+  "ports" : [
+    {
+      "objectType" : "Port",
+      "nodePortType" : "IO",
+      "name" : "this",
+      "execPortType" : "IO",
+      "typeSpec" : "Matrix"
+      }
+    ],
+  "extDeps" : {
+    "Matrix" : "*"
+    },
+  "presetGUID" : "3CBC26EAF0B3D60729A029CF4446A2EC",
+  "code" : "require Matrix;
+
+dfgEntry {
+  this.transpose();
+}
+"
+  }

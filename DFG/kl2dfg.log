@@ -1,0 +1,96 @@
+[FABRIC:MT] Fabric Engine version 2.0.1
+[FABRIC:MT] Loading DFG presets from C:\Users\gusta\OneDrive\Software\Portateis\FabricEngine-2.0.1-Windows-x86_64\Presets\DFG
+[FABRIC:MT] Loading DFG presets from C:\Users\gusta\Fabric\Presets
+[FABRIC:MT] Registered extensions {Alembic:1.0.0,AlembicWrapper:1.2.0,Animation:1.1.0,Bullet:1.0.1,BulletHelpers:1.0.0,Characters:1.1.0,Containers:1.1.0,DFGHelpers,FabricInterfaces:1.0.1,FabricSynchronization:1.1.0,Fbx:1.1.0,FbxHelpers:1.0.2,FileIO:1.2.0,Geometry:1.2.0,Images:1.0.2,InlineDrawing:1.2.0,JSON:1.0.0,Manipulation:1.1.0,Math:1.2.0,FabricOBJ:1.1.0,FabricOGL:1.0.0,OpenImageIO:1.0.2,OSOGL:1.1.0,Parameters:1.0.0,Singletons:1.1.0,FabricStatistics:1.1.0,Util:1.1.0} in directory: C:\Users\gusta\OneDrive\Software\Portateis\FabricEngine-2.0.1-Windows-x86_64\Exts
+[FABRIC:MT] Ignored extension directory 'C:\Users\gusta\OneDrive\Software\Portateis\FabricEngine-2.0.1-Windows-x86_64\Tests\Exts': unable to open directory 'C:\Users\gusta\OneDrive\Software\Portateis\FabricEngine-2.0.1-Windows-x86_64\Tests\Exts': O sistema não pode encontrar o caminho especificado. (code 3 [0x3])
+[FABRIC:MT] Registered extensions {iAction:0.0.1,Matrix:0.0.1} in directory: C:\Users\gusta\OneDrive\Software\Portateis\FabricEngine-2.0.1-Windows-x86_64\MyFabricExts
+[FABRIC:MT] IRCache: Not pruning since last prune was less than 24 hours ago
+[FABRIC:MT] Loaded extension Math in 378.868ms (cached)
+[FABRIC:MT] Loaded extension FabricSynchronization in 94.423ms (cached)
+[FABRIC:MT] Loaded extension Singletons in 102.009ms (cached)
+[FABRIC:MT] Loaded extension Util in 166.343ms (cached)
+[FABRIC:MT] Loaded extension Containers in 1621.243ms (cached)
+[FABRIC:MT] Loaded extension FabricInterfaces in 110.173ms (cached)
+[FABRIC:MT] Loaded extension FileIO in 442.702ms (cached)
+[FABRIC:MT] [Matrix] Matrix.kl:25:3: warning: must use parentheses to call methods (deprecation; will become an error in next version)
+[FABRIC:MT] Loaded extension Matrix in 1141.357ms (first time)
+registerFunction: thisType='Matrix' func='function Matrix?( in Integer height, in Integer width )'
+  Added to bin[normal][Matrix]
+registerFunction: thisType='Matrix' func='function Matrix?( in Integer size )'
+  Added to bin[normal][Matrix]
+registerFunction: thisType='Matrix' func='function String Matrix.desc?()'
+  Added to bin[normal][String Matrix.desc]
+registerFunction: thisType='Matrix' func='function Matrix.fromFile!( in FilePath file )'
+  Added to bin[normal][Matrix.fromFile]
+registerFunction: thisType='Matrix' func='function Scalar[] Matrix.getColumn?( in Integer index )'
+  Added to bin[normal][Scalar[] Matrix.getColumn]
+registerFunction: thisType='Matrix' func='function Matrix Matrix.getColumns?( in Integer start, in Integer end )'
+  Added to bin[normal][Matrix Matrix.getColumns]
+registerFunction: thisType='Matrix' func='function Scalar[] Matrix.getRow?( in Integer index )'
+  Added to bin[normal][Scalar[] Matrix.getRow]
+registerFunction: thisType='Matrix' func='function Matrix Matrix.getRows?( in Integer start, in Integer end )'
+  Added to bin[normal][Matrix Matrix.getRows]
+registerFunction: thisType='Matrix' func='function Scalar Matrix.getValue?( in Integer index )'
+  Added to bin[normal][Scalar Matrix.getValue]
+registerFunction: thisType='Matrix' func='function Scalar Matrix.getValue?( in Integer rowIndex, in Integer columnIndex )'
+  Added to bin[normal][Scalar Matrix.getValue]
+registerFunction: thisType='Matrix' func='function Matrix.multiply!( in Matrix mat )'
+  Skipped: uses standard core preset name
+registerFunction: thisType='Matrix' func='function Matrix.multiplyScalar!( in Scalar value )'
+  Added to bin[normal][Matrix.multiplyScalar]
+registerFunction: thisType='Matrix' func='function Scalar[] Matrix.multiplyVector!( in Scalar vector[] )'
+  Added to bin[normal][Scalar[] Matrix.multiplyVector]
+registerFunction: thisType='Matrix' func='function Matrix.setValue!( in Integer index, in Scalar value )'
+  Added to bin[normal][Matrix.setValue]
+registerFunction: thisType='Matrix' func='function Matrix.setValue!( in Integer rowIndex, in Integer columnIndex, in Scalar value )'
+  Added to bin[normal][Matrix.setValue]
+registerFunction: thisType='Matrix' func='function Matrix.setValue!( in Integer set[], in Scalar value )'
+  Added to bin[normal][Matrix.setValue]
+registerFunction: thisType='Matrix' func='function Matrix.setValue!( in Integer set[], in Scalar value[] )'
+  Added to bin[normal][Matrix.setValue]
+registerFunction: thisType='Matrix' func='function Matrix.transpose!()'
+  Added to bin[normal][Matrix.transpose]
+registerFunction: thisType='Matrix' func='function Matrix?( in Integer size )'
+registerFunction: thisType='Matrix' func='function Matrix?( in Integer height, in Integer width )'
+registerFunction: thisType='Matrix' func='function Matrix.fromFile!( in FilePath file )'
+registerFunction: thisType='Matrix' func='function String Matrix.desc?()'
+registerFunction: thisType='Matrix' func='function Matrix.setValue!( in Integer index, in Scalar value )'
+registerFunction: thisType='Matrix' func='function Matrix.setValue!( in Integer set[], in Scalar value )'
+registerFunction: thisType='Matrix' func='function Matrix.setValue!( in Integer set[], in Scalar value[] )'
+registerFunction: thisType='Matrix' func='function Matrix.setValue!( in Integer rowIndex, in Integer columnIndex, in Scalar value )'
+registerFunction: thisType='Matrix' func='function Scalar Matrix.getValue?( in Integer index )'
+registerFunction: thisType='Matrix' func='function Scalar Matrix.getValue?( in Integer rowIndex, in Integer columnIndex )'
+registerFunction: thisType='Matrix' func='function Scalar[] Matrix.getRow?( in Integer index )'
+registerFunction: thisType='Matrix' func='function Matrix Matrix.getRows?( in Integer start, in Integer end )'
+registerFunction: thisType='Matrix' func='function Scalar[] Matrix.getColumn?( in Integer index )'
+registerFunction: thisType='Matrix' func='function Matrix Matrix.getColumns?( in Integer start, in Integer end )'
+registerFunction: thisType='Matrix' func='function Matrix.transpose!()'
+registerFunction: thisType='Matrix' func='function Matrix.multiplyScalar!( in Scalar value )'
+registerFunction: thisType='Matrix' func='function Scalar[] Matrix.multiplyVector!( in Scalar vector[] )'
+registerFunction: thisType='Matrix' func='function Matrix.multiply!( in Matrix mat )'
+  Skipped: uses standard core preset name
+processFunctions
+  bin[normal][Matrix][2] (asArray=false)
+    thisType='Matrix' code='function Matrix?( in Integer height, in Integer width )'
+  bin[normal][String Matrix.desc][0] (asArray=false)
+    thisType='Matrix' code='function String Matrix.desc?()'
+  bin[normal][Matrix.fromFile][1] (asArray=false)
+    thisType='Matrix' code='function Matrix.fromFile!( in FilePath file )'
+  bin[normal][Scalar[] Matrix.getColumn][1] (asArray=false)
+    thisType='Matrix' code='function Scalar[] Matrix.getColumn?( in Integer index )'
+  bin[normal][Matrix Matrix.getColumns][2] (asArray=false)
+    thisType='Matrix' code='function Matrix Matrix.getColumns?( in Integer start, in Integer end )'
+  bin[normal][Scalar[] Matrix.getRow][1] (asArray=false)
+    thisType='Matrix' code='function Scalar[] Matrix.getRow?( in Integer index )'
+  bin[normal][Matrix Matrix.getRows][2] (asArray=false)
+    thisType='Matrix' code='function Matrix Matrix.getRows?( in Integer start, in Integer end )'
+  bin[normal][Scalar Matrix.getValue][2] (asArray=false)
+    thisType='Matrix' code='function Scalar Matrix.getValue?( in Integer rowIndex, in Integer columnIndex )'
+  bin[normal][Matrix.multiplyScalar][1] (asArray=false)
+    thisType='Matrix' code='function Matrix.multiplyScalar!( in Scalar value )'
+  bin[normal][Scalar[] Matrix.multiplyVector][1] (asArray=false)
+    thisType='Matrix' code='function Scalar[] Matrix.multiplyVector!( in Scalar vector[] )'
+  bin[normal][Matrix.setValue][3] (asArray=false)
+    thisType='Matrix' code='function Matrix.setValue!( in Integer rowIndex, in Integer columnIndex, in Scalar value )'
+  bin[normal][Matrix.transpose][0] (asArray=false)
+    thisType='Matrix' code='function Matrix.transpose!()'
