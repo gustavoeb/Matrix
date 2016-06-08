@@ -2,7 +2,7 @@
 {
   "objectType" : "Func",
   "metadata" : {
-    "uiTooltip" : "Supported types:\n  this: Matrix\n"
+    "uiTooltip" : "A method for transposing any size matrix\n\nSupported types:\n  this: Matrix\n"
     },
   "title" : "Transpose",
   "ports" : [

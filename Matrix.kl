@@ -1,7 +1,16 @@
+/*
+** Example: MxN Matrices
+*/
+
 require Math;
 require Containers;
 require FileIO;
 
+/**
+  A datastructure for matrices of M rows and N columns.
+  \brief MxN Matrix Datastucture
+  \seealso Mat33 Mat44
+*/
 struct Matrix
 {
   Scalar longArray[];
@@ -9,18 +18,24 @@ struct Matrix
   Integer height;
 };
 
+/// A constructor taking a single dimensional input, creates a NxN matrix.
+/// \param size The size of the matrix for both dimensions.
 function Matrix(Integer size) {
   this.width = size;
   this.height = size;
   this.longArray.resize(size*size);
 }
-
+/// Standard constructor taking two dimensional input, creates a MxN matrix.
+/// \param height The number of rows.
+/// \param width The number of columns.
 function Matrix(Integer height, Integer width) {
   this.width = width;
   this.height = height;
   this.longArray.resize(width*height);
 }
 
+/// A constructor that will read matrices from .txt files. MATlab's dlmwrite() notation is expected.
+/// \param file A text file in MATlabs ASCII formatting for matrices.
 function Matrix.fromFile!(FilePath file) {
   if(!file.exists) { setError('File does not exist.'); return; }
   if(!file.extension) { setError('File extension not supported as a valid matrix input.'); return; }
@@ -29,7 +44,7 @@ function Matrix.fromFile!(FilePath file) {
   reader.seek(0);
   String all[] = reader.readAll().splitAny(',\n');
   Scalar allScalars[];
-  for (Integer i = 0; i <= all.size - 1; i++) {
+  for (Integer i = 0; i < all.size-1; i++) {
       allScalars.push(all[i].toScalar);
   }
   this.width = row.size;
@@ -37,6 +52,7 @@ function Matrix.fromFile!(FilePath file) {
   this.longArray = allScalars;
 }
 
+/// A description for the matrix with appropriate formatting.
 function String Matrix.desc() {
   String rows;
   for (Integer j = 0; j <= this.height - 1; j++) {
@@ -49,16 +65,25 @@ function String Matrix.desc() {
   return rows;
 }
 
+/// A value setter for a single value using a single unidimensional index.
+/// \param index An unidimensional index describing a position in a matrix counting elements from left to right, top to bottom.
+/// \param value A scalar value to be set.
 function Matrix.setValue!(Integer index, Scalar value) {
   this.longArray[index] = value;
 }
 
+/// A value setter for a single value in multiple indices.
+/// \param index An array of unidimensional indices describing a position in a matrix counting elements from left to right, top to bottom.
+/// \param value A scalar value to be set in all positions of the index array.
 function Matrix.setValue!(Integer set[], Scalar value) {
   for (Integer i = 0; i <= set.size - 1; i++) {
     this.longArray[set[i]] = value;
   }
 }
 
+/// A value setter for a multiple values in multiple indices.
+/// \param index An array of unidimensional indices describing a position in a matrix counting elements from left to right, top to bottom.
+/// \param value An array of scalar values to be set in all positions of the index array.
 function Matrix.setValue!(Integer set[], Scalar value[]) {
   if (set.size != value.size) { setError('Number of values and indices must match.'); return; };
   for (Integer i = 0; i <= set.size - 1; i++) {
@@ -66,22 +91,33 @@ function Matrix.setValue!(Integer set[], Scalar value[]) {
   }
 }
 
+/// A value setter for a single value using a single column-row index.
+/// \param rowIndex The row of the element.
+/// \param columnIndex The column of the element.
+/// \param value A scalar value to be set.
 function Matrix.setValue!(Integer rowIndex, Integer columnIndex, Scalar value) {
   Integer index;
   index = (rowIndex)*this.width+columnIndex;
   this.longArray[index] = value;
 }
 
+/// A value getter for a single value using a single unidimensional index.
+/// \param index An unidimensional index describing a position in a matrix counting elements from left to right, top to bottom.
 function Scalar Matrix.getValue(Integer index) {
   return this.longArray[index];
 }
 
+/// A value getter for a single value using a single column-row index.
+/// \param rowIndex The row of the element.
+/// \param columnIndex The column of the element.
 function Scalar Matrix.getValue(Integer rowIndex, Integer columnIndex) {
   Integer index;
   index = (rowIndex)*this.width+columnIndex;
   return this.longArray[index];
 }
 
+/// A value getter for a row in a matrix.
+/// \param index The index of the row.
 function Scalar[] Matrix.getRow(Integer index) {
   Scalar row[];
   if (index > this.height) { setError('Row number exceeds matrix dimensions.'); return row;}
@@ -92,6 +128,9 @@ function Scalar[] Matrix.getRow(Integer index) {
   return row;
 }
 
+/// A value getter for a sequence of rows in a matrix.
+/// \param start The first row in the sequence.
+/// \param end The last row in the sequence.
 function Matrix Matrix.getRows(Integer start, Integer end) {
   Matrix empty_mat(0,0);
   Scalar new_longArray[];
@@ -108,6 +147,8 @@ function Matrix Matrix.getRows(Integer start, Integer end) {
   return new_mat;
 }
 
+/// A value getter for a column in a matrix.
+/// \param index The index of the column.
 function Scalar[] Matrix.getColumn(Integer index) {
   Scalar column[];
   if (index > this.height) { setError('Column number exceeds matrix dimensions.'); return column;}
@@ -118,6 +159,9 @@ function Scalar[] Matrix.getColumn(Integer index) {
   return column;
 }
 
+/// A value getter for a sequence of columns in a matrix.
+/// \param start The first column in the sequence.
+/// \param end The last column in the sequence.
 function Matrix Matrix.getColumns(Integer start, Integer end) {
   Matrix empty_mat(0,0);
   Scalar new_longArray[];
@@ -135,6 +179,7 @@ function Matrix Matrix.getColumns(Integer start, Integer end) {
   return new_mat;
 }
 
+/// A method for transposing any size matrix
 function Matrix.transpose!() {
   Integer height = this.width.clone;
   Integer width = this.height.clone;
@@ -150,25 +195,15 @@ function Matrix.transpose!() {
   this.longArray = newArray;
 }
 
+/// Multiplies a matrix by a scalar.
+/// \param value Scalar value for the multiplication.
 function Matrix.multiplyScalar!(Scalar value) {
   for (Integer i = 0; i <= this.longArray.size - 1; i++) {
     this.longArray[i] = this.longArray[i] * value;
   }
 }
 
-function Scalar[] Matrix.multiplyVector!(Scalar vector[]) {
-  Scalar newVector[];
-  if (vector.size != this.height) { setError('Matricies and vector dimentions do not match.'); return newVector; }
-  for (Integer i = 0; i <= this.width - 1; i++) {
-    Scalar dotProduct;
-    for (Integer h = 0; h <= vector.size - 1; h++) {
-      dotProduct += vector[h] * this.getValue(h,i);
-    }
-    newVector.push(dotProduct);
-  }
-  return newVector;
-}
-
+/// Multiplies a matrix by another matrix.
 function Matrix.multiply!(Matrix mat) {
   if (this.width != mat.height) { setError('Matricies dimentions do not match.'); return; }
   Matrix new_mat(this.height, mat.width);
@@ -182,4 +217,28 @@ function Matrix.multiply!(Matrix mat) {
     }
   }
   this = new_mat;
+}
+
+/// Multiplies a matrix by a column vector.
+/// \param vector Array of scalar values for the multiplication.
+function Matrix.multiplyColumnVector!(Scalar vector[]) {
+  Matrix columnVec(1,vector.size());
+  Integer indices[];
+  for (Integer i = 0; i < vector.size(); i++) {
+    indices.push(i);
+  };
+  columnVec.setValue(indices, vector);
+  this.multiply(columnVec);
+}
+
+/// Multiplies a matrix by a row vector.
+/// \param vector Array of scalar values for the multiplication.
+function Matrix.multiplyRowVector!(Scalar vector[]) {
+  Matrix rowVec(vector.size(),1);
+  Integer indices[];
+  for (Integer i = 0; i < vector.size(); i++) {
+    indices.push(i);
+  };
+  rowVec.setValue(indices, vector);
+  this.multiply(rowVec);
 }

@@ -2,7 +2,7 @@
 {
   "objectType" : "Func",
   "metadata" : {
-    "uiTooltip" : "Supported types:\n  this: Matrix\n  rowIndex: Integer\n  columnIndex: Integer\n  result: Scalar\n"
+    "uiTooltip" : "A value getter for a single value using a single column-row index.\n\nSupported types:\n  this: Matrix\n  rowIndex: Integer\n  columnIndex: Integer\n  result: Scalar\n"
     },
   "title" : "GetValue",
   "ports" : [

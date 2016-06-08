@@ -1,0 +1,103 @@
+require Matrix;
+require Math;
+
+function Boolean arrayEquality(Scalar m[], Scalar n[]) {
+  if (m.size() != n.size())
+    return false;
+
+  for (Size i = 0; i < m.size(); i++) {
+    if (m[i] != n[i])
+      return false;
+  }
+
+  return true;
+}
+
+operator entry() {
+  Matrix a(3);
+  a.setValue(0, 8);
+  a.setValue(1, 1);
+  a.setValue(2, 6);
+  a.setValue(3, 3);
+  a.setValue(4, 5);
+  a.setValue(5, 7);
+  a.setValue(6, 4);
+  a.setValue(7, 9);
+  a.setValue(8, 2);
+
+  Matrix b = a;
+
+  Scalar vector[];
+  vector.push(1.0);
+  vector.push(2.0);
+  vector.push(3.0);
+
+  report('Testing matrix transpose');
+  Matrix compare = a.clone();
+  Matrix aTransposed(3);
+  aTransposed.setValue(0, 8);
+  aTransposed.setValue(1, 3);
+  aTransposed.setValue(2, 4);
+  aTransposed.setValue(3, 1);
+  aTransposed.setValue(4, 5);
+  aTransposed.setValue(5, 9);
+  aTransposed.setValue(6, 6);
+  aTransposed.setValue(7, 7);
+  aTransposed.setValue(8, 2);
+  if (arrayEquality(aTransposed.longArray, compare.transpose().longArray))
+    report('Success');
+  else
+    report('Fail');
+
+  report('Testing scalar multiplication');
+  compare = a.clone();
+  Matrix aScalarMult(3);
+  aScalarMult.setValue(0, 16);
+  aScalarMult.setValue(1, 2);
+  aScalarMult.setValue(2, 12);
+  aScalarMult.setValue(3, 6);
+  aScalarMult.setValue(4, 10);
+  aScalarMult.setValue(5, 14);
+  aScalarMult.setValue(6, 8);
+  aScalarMult.setValue(7, 18);
+  aScalarMult.setValue(8, 4);
+  if (arrayEquality(aScalarMult.longArray, compare.multiplyScalar(2.0).longArray))
+    report('Success');
+  else
+    report('Fail');
+
+  report('Testing vector multiplication');
+  compare = a.clone();
+  Scalar aVecMultiplied[];
+  aVecMultiplied.push(28.0);
+  aVecMultiplied.push(34.0);
+  aVecMultiplied.push(28.0);
+  if (arrayEquality(aVecMultiplied, compare.multiplyRowVector(vector).longArray))
+    report('Success');
+  else
+    report('Fail');
+
+  report('Testing matrix multiplication');
+  compare = a.clone();
+  Matrix aMultiplied(3);
+  aMultiplied.setValue(0, 91);
+  aMultiplied.setValue(1, 67);
+  aMultiplied.setValue(2, 67);
+  aMultiplied.setValue(3, 67);
+  aMultiplied.setValue(4, 91);
+  aMultiplied.setValue(5, 67);
+  aMultiplied.setValue(6, 67);
+  aMultiplied.setValue(7, 67);
+  aMultiplied.setValue(8, 91);
+  if (arrayEquality(aMultiplied.longArray, compare.multiply(b).longArray))
+    report('Success');
+  else
+    report('Fail');
+
+  report('Testing load matrix from file');
+  FilePath path('sample.txt');
+  if (arrayEquality(a.longArray, compare.fromFile(path).longArray))
+    report('Success');
+  else
+    report('Fail');
+}

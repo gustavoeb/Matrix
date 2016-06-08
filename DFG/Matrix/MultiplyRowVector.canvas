@@ -2,9 +2,9 @@
 {
   "objectType" : "Func",
   "metadata" : {
-    "uiTooltip" : "Multiplies a matrix by a scalar.\n\nSupported types:\n  this: Matrix\n  value: Scalar\n"
+    "uiTooltip" : "Multiplies a matrix by a row vector.\n\nSupported types:\n  this: Matrix\n  vector: Scalar[]\n"
     },
-  "title" : "MultiplyScalar",
+  "title" : "MultiplyRowVector",
   "ports" : [
     {
       "objectType" : "Port",
@@ -16,19 +16,19 @@
     {
       "objectType" : "Port",
       "nodePortType" : "Out",
-      "name" : "value",
+      "name" : "vector",
       "execPortType" : "In",
-      "typeSpec" : "Scalar"
+      "typeSpec" : "Scalar[]"
       }
     ],
   "extDeps" : {
     "Matrix" : "*"
     },
-  "presetGUID" : "DC1DDE95876C5C6656C2FA2CEF4F25D3",
+  "presetGUID" : "88468ADB9E51DD0501AD7B3E38748A53",
   "code" : "require Matrix;
 
 dfgEntry {
-  this.multiplyScalar(value);
+  this.multiplyRowVector(vector);
 }
 "
   }

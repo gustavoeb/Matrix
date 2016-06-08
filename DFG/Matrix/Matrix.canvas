@@ -2,7 +2,7 @@
 {
   "objectType" : "Func",
   "metadata" : {
-    "uiTooltip" : "Supported types:\n  height: Integer\n  width: Integer\n  result: Matrix\n"
+    "uiTooltip" : "Standard constructor taking two dimensional input, creates a MxN matrix.\n\nSupported types:\n  height: Integer\n  width: Integer\n  result: Matrix\n"
     },
   "title" : "Matrix",
   "ports" : [

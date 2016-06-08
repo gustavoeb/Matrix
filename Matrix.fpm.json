@@ -1,8 +1,8 @@
 {
-  "version": "0.0.1",
+  "version": "1.0.0",
   "code": [
     "Matrix.kl"
-    ]
+    ],
   "dfgPresets": {
     "dir": "DFG",
     "presetPath": "User.Exts.Matrices"
