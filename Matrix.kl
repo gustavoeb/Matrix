@@ -37,18 +37,18 @@ function Matrix(Integer height, Integer width) {
 /// A constructor that will read matrices from .txt files. MATlab's dlmwrite() notation is expected.
 /// \param file A text file in MATlabs ASCII formatting for matrices.
 function Matrix.fromFile!(FilePath file) {
-  if(!file.exists) { setError('File does not exist.'); return; }
-  if(!file.extension) { setError('File extension not supported as a valid matrix input.'); return; }
+  if(!file.exists()) { setError('File does not exist.'); return; }
+  if(!file.extension()) { setError('File extension not supported as a valid matrix input.'); return; }
   TextReader reader = TextReader(file.string());
   String row[] = reader.readLine().split(',');
   reader.seek(0);
   String all[] = reader.readAll().splitAny(',\n');
   Scalar allScalars[];
-  for (Integer i = 0; i < all.size-1; i++) {
-      allScalars.push(all[i].toScalar);
+  for (Integer i = 0; i < all.size()-1; i++) {
+      allScalars.push(all[i].toScalar());
   }
-  this.width = row.size;
-  this.height = all.size/row.size;
+  this.width = row.size();
+  this.height = all.size()/row.size();
   this.longArray = allScalars;
 }
 
@@ -76,7 +76,7 @@ function Matrix.setValue!(Integer index, Scalar value) {
 /// \param index An array of unidimensional indices describing a position in a matrix counting elements from left to right, top to bottom.
 /// \param value A scalar value to be set in all positions of the index array.
 function Matrix.setValue!(Integer set[], Scalar value) {
-  for (Integer i = 0; i <= set.size - 1; i++) {
+  for (Integer i = 0; i <= set.size() - 1; i++) {
     this.longArray[set[i]] = value;
   }
 }
@@ -85,8 +85,8 @@ function Matrix.setValue!(Integer set[], Scalar value) {
 /// \param index An array of unidimensional indices describing a position in a matrix counting elements from left to right, top to bottom.
 /// \param value An array of scalar values to be set in all positions of the index array.
 function Matrix.setValue!(Integer set[], Scalar value[]) {
-  if (set.size != value.size) { setError('Number of values and indices must match.'); return; };
-  for (Integer i = 0; i <= set.size - 1; i++) {
+  if (set.size() != value.size()) { setError('Number of values and indices must match.'); return; };
+  for (Integer i = 0; i <= set.size() - 1; i++) {
     this.longArray[set[i]] = value[i];
   }
 }
@@ -175,14 +175,14 @@ function Matrix Matrix.getColumns(Integer start, Integer end) {
   }
   Matrix new_mat(end-start+1,this.height);
   new_mat.longArray = new_longArray;
-  new_mat.transpose;
+  new_mat.transpose();
   return new_mat;
 }
 
 /// A method for transposing any size matrix
 function Matrix.transpose!() {
-  Integer height = this.width.clone;
-  Integer width = this.height.clone;
+  Integer height = this.width.clone();
+  Integer width = this.height.clone();
   this.height = height;
   this.width = width;
 
@@ -198,7 +198,7 @@ function Matrix.transpose!() {
 /// Multiplies a matrix by a scalar.
 /// \param value Scalar value for the multiplication.
 function Matrix.multiplyScalar!(Scalar value) {
-  for (Integer i = 0; i <= this.longArray.size - 1; i++) {
+  for (Integer i = 0; i <= this.longArray.size() - 1; i++) {
     this.longArray[i] = this.longArray[i] * value;
   }
 }
