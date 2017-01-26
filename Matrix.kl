@@ -48,8 +48,14 @@ function Matrix.fromFile!(FilePath file) {
       allScalars.push(all[i].toScalar());
   }
   this.width = row.size();
-  this.height = all.size()/row.size();
+  this.height = (all.size()-1)/row.size();
   this.longArray = allScalars;
+}
+
+function Matrix.ones!() {
+  for(Size i=0; i<this.longArray.size(); i++) {
+    this.longArray[i] = 1;
+  }
 }
 
 /// A description for the matrix with appropriate formatting.
@@ -166,7 +172,7 @@ function Matrix Matrix.getColumns(Integer start, Integer end) {
   Matrix empty_mat(0,0);
   Scalar new_longArray[];
   if (start > this.width || end > this.width) { setError('Row number exceeds matrix dimensions.'); return empty_mat;}
-  if (start < 0 || end < 0) { setError('Row number less then zero.'); return empty_mat; }
+  if (start < 0 || end < 0) { setError('Row number lower then zero.'); return empty_mat; }
   if (end < start) { 'Starting point is further then end point.'; return empty_mat;}
   for (Integer j = start; j <= end-start; j++) {
     for (Integer i = 0; i <= this.height - 1; i++) {
@@ -187,8 +193,8 @@ function Matrix.transpose!() {
   this.width = width;
 
   Scalar newArray[];
-  for (Integer j = 0; j <= this.height - 1; j++) {
-    for (Integer i = 0; i <= this.width - 1; i++) {
+  for (Integer j = 0; j < this.height; j++) {
+    for (Integer i = 0; i < this.width; i++) {
       newArray.push(this.longArray[(i*height)+j]);
     }
   }
@@ -241,4 +247,27 @@ function Matrix.multiplyRowVector!(Scalar vector[]) {
   };
   rowVec.setValue(indices, vector);
   this.multiply(rowVec);
+}
+
+/// Concatenates two matrices vertically.
+/// \param mat A matrix to be appended after the last row.
+function Matrix.vertcat!(Matrix mat) {
+  if (this.width != mat.width) { setError('Matricies dimentions do not match.'); return; }
+  this.height = this.height + mat.height;
+  // for(Size i=0; i<mat.longArray.size(); i++) {
+  //   this.longArray.push(mat.longArray[i]);
+  // }
+  this.longArray = this.longArray + mat.longArray;
+}
+
+/// Concatenates two matrices horizontally.
+/// \param mat A matrix to be appended after the last column.
+function Matrix.horzcat!(in Matrix mat) {
+  // This is a sloppy implementation.
+  // Should check if there is a better way to do this.
+  this.transpose();
+  Matrix matClone = mat;
+  matClone.transpose();
+  this.vertcat(matClone);
+  this.transpose();
 }

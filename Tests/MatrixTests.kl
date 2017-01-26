@@ -27,6 +27,22 @@ operator entry() {
 
   Matrix b = a;
 
+  Matrix c(2,3);
+  c.setValue(0,21);
+  c.setValue(1,22);
+  c.setValue(2,23);
+  c.setValue(3,24);
+  c.setValue(4,25);
+  c.setValue(5,26);
+
+  Matrix d(3,1);
+  d.setValue(0,21);
+  d.setValue(1,22);
+  d.setValue(2,23);
+  // d.setValue(3,24);
+  // d.setValue(4,25);
+  // d.setValue(5,26);
+
   Scalar vector[];
   vector.push(1.0);
   vector.push(2.0);
@@ -94,10 +110,53 @@ operator entry() {
   else
     report('Fail');
 
-  report('Testing load matrix from file');
-  FilePath path('sample.txt');
-  if (arrayEquality(a.longArray, compare.fromFile(path).longArray))
+  report('Testing vertical concatenation');
+  compare = a.clone();
+  Matrix aVertcat(5,3);
+  aVertcat.setValue(0, 8);
+  aVertcat.setValue(1, 1);
+  aVertcat.setValue(2, 6);
+  aVertcat.setValue(3, 3);
+  aVertcat.setValue(4, 5);
+  aVertcat.setValue(5, 7);
+  aVertcat.setValue(6, 4);
+  aVertcat.setValue(7, 9);
+  aVertcat.setValue(8, 2);
+  aVertcat.setValue(9, 21);
+  aVertcat.setValue(10, 22);
+  aVertcat.setValue(11, 23);
+  aVertcat.setValue(12, 24);
+  aVertcat.setValue(13, 25);
+  aVertcat.setValue(14, 26);
+  if (arrayEquality(aVertcat.longArray, compare.vertcat(c).longArray))
     report('Success');
   else
     report('Fail');
+
+  report('Testing horizontal concatenation');
+  compare = a.clone();
+  Matrix aHorzcat(3,4);
+  aHorzcat.setValue(0, 8);
+  aHorzcat.setValue(1, 1);
+  aHorzcat.setValue(2, 6);
+  aHorzcat.setValue(3, 21);
+  aHorzcat.setValue(4, 3);
+  aHorzcat.setValue(5, 5);
+  aHorzcat.setValue(6, 7);
+  aHorzcat.setValue(7, 22);
+  aHorzcat.setValue(8, 4);
+  aHorzcat.setValue(9, 9);
+  aHorzcat.setValue(10, 2);
+  aHorzcat.setValue(11, 23);
+  if (arrayEquality(aHorzcat.longArray, compare.horzcat(d).longArray))
+    report('Success');
+  else
+    report('Fail');
+
+  // report('Testing load matrix from file');
+  // FilePath path("C:\\Users\\gusta\\Desktop\\biases1.txt");
+  // if (arrayEquality(a.longArray, compare.fromFile(path).longArray))
+  //   report('Success');
+  // else
+  //   report('Fail');
 }
