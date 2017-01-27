@@ -1,0 +1,53 @@
+// Created by kl2dfg (processFunction)
+{
+  "objectType" : "Func",
+  "metadata" : {
+    "uiNodeColor" : "{\n  \"r\" : 99,\n  \"g\" : 129,\n  \"b\" : 92\n  }",
+    "uiDocUrl" : "http://docs.fabric-engine.com/FabricEngine/2.4.0/HTML/KLExtensionsGuide/Math/Mat.html",
+    "uiTooltip" : "A value setter for a multiple values in multiple indices.\n\nSupported types:\n  this: Mat\n  set: Integer[]\n  value: Scalar[]\n"
+    },
+  "title" : "SetArray_unidimensional",
+  "ports" : [
+    {
+      "objectType" : "ExecPort",
+      "name" : "exec",
+      "nodePortType" : "IO",
+      "execPortType" : "IO",
+      "typeSpec" : "Execute"
+      },
+    {
+      "objectType" : "ExecPort",
+      "metadata" : {
+        "uiColor" : "{\n  \"r\" : 249,\n  \"g\" : 157,\n  \"b\" : 28\n  }"
+        },
+      "name" : "this",
+      "nodePortType" : "IO",
+      "execPortType" : "IO",
+      "typeSpec" : "Mat"
+      },
+    {
+      "objectType" : "ExecPort",
+      "name" : "set",
+      "nodePortType" : "Out",
+      "execPortType" : "In",
+      "typeSpec" : "Integer[]"
+      },
+    {
+      "objectType" : "ExecPort",
+      "name" : "value",
+      "nodePortType" : "Out",
+      "execPortType" : "In",
+      "typeSpec" : "Scalar[]"
+      }
+    ],
+  "extDeps" : {
+    "Matrix" : "*"
+    },
+  "presetGUID" : "9EDBC97FA861D7A0A5766EA7B178CB39",
+  "code" : "require Matrix;
+
+dfgEntry {
+  this.set(set, value);
+}
+"
+  }

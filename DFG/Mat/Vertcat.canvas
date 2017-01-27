@@ -1,0 +1,49 @@
+// Created by kl2dfg (processFunction)
+{
+  "objectType" : "Func",
+  "metadata" : {
+    "uiNodeColor" : "{\n  \"r\" : 99,\n  \"g\" : 129,\n  \"b\" : 92\n  }",
+    "uiDocUrl" : "http://docs.fabric-engine.com/FabricEngine/2.4.0/HTML/KLExtensionsGuide/Math/Mat.html",
+    "uiTooltip" : "Concatenates two matrices vertically.\n\nSupported types:\n  this: Mat\n  mat: Mat\n"
+    },
+  "title" : "Vertcat",
+  "ports" : [
+    {
+      "objectType" : "ExecPort",
+      "name" : "exec",
+      "nodePortType" : "IO",
+      "execPortType" : "IO",
+      "typeSpec" : "Execute"
+      },
+    {
+      "objectType" : "ExecPort",
+      "metadata" : {
+        "uiColor" : "{\n  \"r\" : 249,\n  \"g\" : 157,\n  \"b\" : 28\n  }"
+        },
+      "name" : "this",
+      "nodePortType" : "IO",
+      "execPortType" : "IO",
+      "typeSpec" : "Mat"
+      },
+    {
+      "objectType" : "ExecPort",
+      "metadata" : {
+        "uiColor" : "{\n  \"r\" : 249,\n  \"g\" : 157,\n  \"b\" : 28\n  }"
+        },
+      "name" : "mat",
+      "nodePortType" : "Out",
+      "execPortType" : "In",
+      "typeSpec" : "Mat"
+      }
+    ],
+  "extDeps" : {
+    "Matrix" : "*"
+    },
+  "presetGUID" : "805253C549CFA0D57F2EA7F6B8EFCCF3",
+  "code" : "require Matrix;
+
+dfgEntry {
+  this.vertcat(mat);
+}
+"
+  }

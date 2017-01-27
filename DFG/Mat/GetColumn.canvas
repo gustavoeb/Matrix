@@ -1,0 +1,53 @@
+// Created by kl2dfg (processFunction)
+{
+  "objectType" : "Func",
+  "metadata" : {
+    "uiNodeColor" : "{\n  \"r\" : 99,\n  \"g\" : 129,\n  \"b\" : 92\n  }",
+    "uiDocUrl" : "http://docs.fabric-engine.com/FabricEngine/2.4.0/HTML/KLExtensionsGuide/Math/Mat.html",
+    "uiTooltip" : "A value getter for a column in a matrix.\n\nSupported types:\n  this: Mat\n  index: Integer\n  result: Scalar[]\n"
+    },
+  "title" : "GetColumn",
+  "ports" : [
+    {
+      "objectType" : "ExecPort",
+      "name" : "exec",
+      "nodePortType" : "IO",
+      "execPortType" : "IO",
+      "typeSpec" : "Execute"
+      },
+    {
+      "objectType" : "ExecPort",
+      "metadata" : {
+        "uiColor" : "{\n  \"r\" : 249,\n  \"g\" : 157,\n  \"b\" : 28\n  }"
+        },
+      "name" : "this",
+      "nodePortType" : "Out",
+      "execPortType" : "In",
+      "typeSpec" : "Mat"
+      },
+    {
+      "objectType" : "ExecPort",
+      "name" : "index",
+      "nodePortType" : "Out",
+      "execPortType" : "In",
+      "typeSpec" : "Integer"
+      },
+    {
+      "objectType" : "ExecPort",
+      "name" : "result",
+      "nodePortType" : "In",
+      "execPortType" : "Out",
+      "typeSpec" : "Scalar[]"
+      }
+    ],
+  "extDeps" : {
+    "Matrix" : "*"
+    },
+  "presetGUID" : "B4EB4CDDE4535576411A15D449B8AFCC",
+  "code" : "require Matrix;
+
+dfgEntry {
+  result = this.getColumn(index);
+}
+"
+  }

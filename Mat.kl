@@ -1,0 +1,154 @@
+/**
+
+This is are aditional methods to the factory Mat structure.
+
+*/
+
+require Math;
+require FileIO;
+require Containers;
+
+/// A constructor that will read matrices from .txt files. MATlab's dlmwrite() notation is expected.
+/// \param file A text file in MATlabs ASCII formatting for matrices.
+function Mat.fromFile!(FilePath file) {
+  if(!file.exists())
+    throw FUNC + ": file " + file + " does not exist.";
+  if(!file.extension())
+    throw FUNC + ": file " + file + " extension not supported.";
+  TextReader reader = TextReader(file.string());
+  String row[] = reader.readLine().split(',');
+  reader.seek(0);
+  String all[] = reader.readAll().splitAny(',\n');
+  Scalar allScalars[];
+  for (Integer i = 0; i < all.size()-1; i++) {
+      allScalars.push(all[i].toScalar());
+  }
+  this.cols = row.size();
+  this.rows = (all.size()-1)/row.size();
+  this.vals = allScalars;
+}
+
+/// A value setter for a single value using a single unidimensional index.
+/// \param index An unidimensional index describing a position in a matrix counting elements from left to right, top to bottom.
+/// \param value A scalar value to be set.
+/// \dfgPresetTitle Set_unidimensional
+function Mat.set!(Integer index, Scalar value) {
+  this.vals[index] = value;
+}
+
+/// A value setter for a single value in multiple indices.
+/// \param index An array of unidimensional indices describing a position in a matrix counting elements from left to right, top to bottom.
+/// \param value A scalar value to be set in all positions of the index array.
+/// \dfgPresetTitle SetMany_unidimensional
+function Mat.set!(Integer set[], Scalar value) {
+  for (Integer i = 0; i < set.size(); i++) {
+    this.vals[set[i]] = value;
+  }
+}
+
+/// A value setter for a multiple values in multiple indices.
+/// \param index An array of unidimensional indices describing a position in a matrix counting elements from left to right, top to bottom.
+/// \param value An array of scalar values to be set in all positions of the index array.
+/// \dfgPresetTitle SetArray_unidimensional
+function Mat.set!(Integer set[], Scalar value[]) {
+  if (set.size() != value.size())
+    throw FUNC + ": number of indices is different from number of values (" + set.size() + " of " + value.size() + ")";
+  for (Integer i = 0; i < set.size(); i++) {
+    this.vals[set[i]] = value[i];
+  }
+}
+
+/// A value getter for a row in a matrix.
+/// \param index The index of the row.
+function Scalar[] Mat.getRow(Integer index) {
+  Scalar row[];
+  if (index > this.rows)
+    throw FUNC + ": row index greater than number of rows (" + index + " of " + this.rows + ")";
+  if (index < 0)
+    throw FUNC + ": row index should be greater than zero (got " + index + ")";
+  for (Integer i = 0; i < this.cols; i++) {
+    row.push(this.vals[(index)*this.cols+i]);
+  }
+  return row;
+}
+
+// Following code needs revision
+// /// A value getter for a sequence of rows in a matrix.
+// /// \param start The first row in the sequence.
+// /// \param end The last row in the sequence.
+// function Mat Mat.getRows(Integer start, Integer end) {
+//   Mat emptuMat(0,0);
+//   Scalar newVals[];
+//   if (start > this.rows || end > this.rows)
+//     throw FUNC + ": row index greater than number of rows (" + start + ", " + end + " of " + this.rows + ")";
+//   if (start < 0 || end < 0) 
+//     throw FUNC + ": row index should be greater than zero";
+//   if (end < start)
+//     throw FUNC + ": start is greater than end (" + start + " vs " + end + ")";
+//   for (Integer j = start; j <= end-start; j++) {
+//     for (Integer i = 0; i < this.cols; i++) {
+//       newVals.push(this.vals[(j)*this.cols+i]);
+//     }
+//   }
+//   Mat new_mat(end-start+1,this.cols);
+//   new_mat.vals = newVals;
+//   return new_mat;
+// }
+
+/// A value getter for a column in a matrix.
+/// \param index The index of the column.
+function Scalar[] Mat.getColumn(Integer index) {
+  Scalar column[];
+  if (index > this.cols)
+    throw FUNC + ": colum index greater than number of columns (" + index + " of " + this.cols + ")";
+  if (index < 0)
+    throw FUNC + ": column index should be greater than zero (got " + index + ")";
+  for (Integer i = 0; i <= this.rows - 1; i++) {
+    column.push(this.vals[(i)*this.cols+index]);
+  }
+  return column;
+}
+
+// Following code needs revision
+// /// A value getter for a sequence of columns in a matrix.
+// /// \param start The first column in the sequence.
+// /// \param end The last column in the sequence.
+// function Mat Mat.getColumns(Integer start, Integer end) {
+//   Scalar newVals[];
+//   if (start > this.cols || end > this.cols)
+//     throw FUNC + ": colum index greater than number of columns (" + start + ", " + end + " of " + this.rows + ")";
+//   if (start < 0 || end < 0)
+//     throw FUNC + ": column index should be greater than zero";
+//   if (end < start)
+//     throw FUNC + ": start is greater than end (" + start + " vs " + end + ")";
+//   for (Integer j = start; j <= end-start; j++) {
+//     for (Integer i = 0; i <= this.rows - 1; i++) {
+//       newVals.push(this.vals[(i)*this.cols+j]);
+//     }
+//   }
+//   Mat newMat(end-start+1,this.rows);
+//   newMat.vals = newVals;
+//   newMat.transpose();
+//   return newMat;
+// }
+
+/// Concatenates two matrices vertically.
+/// \param mat A matrix to be appended after the last row.
+function Mat.vertcat!(Mat mat) {
+  if (this.cols != mat.cols)
+    throw FUNC + ": incompatible dimensions (" + this.sizeDesc() + " vs. " + mat.sizeDesc() + ")";
+  this.rows = this.rows + mat.rows;
+  this.vals = this.vals + mat.vals;
+}
+
+/// Concatenates two matrices horizontally.
+/// \param mat A matrix to be appended after the last column.
+function Mat.horzcat!(in Mat mat) {
+  // This is a sloppy implementation.
+  // Should refactor when possible.
+  this.transpose();
+  Mat matClone = mat;
+  matClone.transpose();
+  this.vertcat(matClone);
+  this.transpose();
+}
