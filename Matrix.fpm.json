@@ -1,11 +1,10 @@
 {
-  "version": "1.0.0",
+  "version": "1.5.0",
   "code": [
-    "Matrix.kl"
+    "Mat.kl"
     ],
   "dfgPresets": {
     "dir": "DFG",
-    "presetPath": "User.Exts.Matrices"
+    "presetPath": "Fabric.Exts.Math.Mat"
     }
-
 }
