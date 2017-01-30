@@ -28,6 +28,12 @@ function Mat.fromFile!(FilePath file) {
   this.vals = allScalars;
 }
 
+
+/// Gell all the matrix element as a scalar array
+inline Scalar[] Mat.getAll() {
+  return this.vals;
+}
+
 /// A value setter for a single value using a single unidimensional index.
 /// \param index An unidimensional index describing a position in a matrix counting elements from left to right, top to bottom.
 /// \param value A scalar value to be set.
@@ -44,6 +50,13 @@ function Mat.set!(Integer set[], Scalar value) {
   for (Integer i = 0; i < set.size(); i++) {
     this.vals[set[i]] = value;
   }
+}
+
+/// Substitutes the matrix value contatiner.
+inline Mat.setAll!(Scalar vals[]) {
+  if(this.vals.size() != vals.size())
+    throw FUNC + ": size of array must match the matrix's number of elements (" + this.vals.size() + " vs " + vals.size() + ")";
+  this.vals = vals;
 }
 
 /// A value setter for a multiple values in multiple indices.
@@ -70,6 +83,20 @@ function Scalar[] Mat.getRow(Integer index) {
     row.push(this.vals[(index)*this.cols+i]);
   }
   return row;
+}
+
+/// A value setter for a row in a matrix.
+/// \param index The index of the row.
+function Mat.setRow!(Integer index, Scalar vals[]) {
+  if (index > this.rows)
+    throw FUNC + ": row index greater than number of rows (" + index + " of " + this.rows + ")";
+  if (index < 0)
+    throw FUNC + ": row index should be greater than zero (got " + index + ")";
+  if (vals.size() != this.cols)
+    throw FUNC + ": input values do not match do not match # of elements in row (" + vals.size() + " of " + this.cols + ")";
+  for (Integer i = 0; i < this.cols; i++) {
+    this.vals[(index)*this.cols+i] = vals[i];
+  }
 }
 
 // Following code needs revision
@@ -109,6 +136,21 @@ function Scalar[] Mat.getColumn(Integer index) {
   return column;
 }
 
+/// A value setter for a column in a matrix.
+/// \param index The index of the column.
+function Mat.setColumn!(Integer index, Scalar vals[]) {
+  Scalar column[];
+  if (index > this.cols)
+    throw FUNC + ": colum index greater than number of columns (" + index + " of " + this.cols + ")";
+  if (index < 0)
+    throw FUNC + ": column index should be greater than zero (got " + index + ")";
+  if (vals.size() != this.rows)
+    throw FUNC + ": input values do not match do not match # of elements in column (" + vals.size() + " of " + this.rows + ")";
+  for (Integer i = 0; i <= this.rows - 1; i++) {
+    this.vals[(i)*this.cols+index] = vals[i];
+  }
+}
+
 // Following code needs revision
 // /// A value getter for a sequence of columns in a matrix.
 // /// \param start The first column in the sequence.
@@ -146,9 +188,8 @@ function Mat.vertcat!(Mat mat) {
 function Mat.horzcat!(in Mat mat) {
   // This is a sloppy implementation.
   // Should refactor when possible.
-  this.transpose();
-  Mat matClone = mat;
-  matClone.transpose();
-  this.vertcat(matClone);
-  this.transpose();
+  Mat thisClone = this.transpose();
+  Mat matClone = mat.transpose();
+  thisClone.vertcat(matClone);
+  this = thisClone.transpose();
 }
