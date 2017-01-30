@@ -10,7 +10,7 @@ require Containers;
 
 /// A constructor that will read matrices from .txt files. MATlab's dlmwrite() notation is expected.
 /// \param file A text file in MATlabs ASCII formatting for matrices.
-function Mat.fromFile!(FilePath file) {
+function Mat.fromCSV!(FilePath file) {
   if(!file.exists())
     throw FUNC + ": file " + file + " does not exist.";
   if(!file.extension())

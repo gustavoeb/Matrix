@@ -4,9 +4,9 @@
   "metadata" : {
     "uiNodeColor" : "{\n  \"r\" : 99,\n  \"g\" : 129,\n  \"b\" : 92\n  }",
     "uiDocUrl" : "http://docs.fabric-engine.com/FabricEngine/2.4.0/HTML/KLExtensionsGuide/Math/Mat.html",
-    "uiTooltip" : "A constructor that will read matrices from .txt files. MATlab's dlmwrite() notation is expected.\n\nSupported types:\n  this: Mat\n  file: FilePath\n"
+    "uiTooltip" : "Gell all the matrix element as a scalar array\n\nSupported types:\n  this: Mat\n  result: Scalar[]\n"
     },
-  "title" : "FromFile",
+  "title" : "GetAll",
   "ports" : [
     {
       "objectType" : "ExecPort",
@@ -21,26 +21,26 @@
         "uiColor" : "{\n  \"r\" : 249,\n  \"g\" : 157,\n  \"b\" : 28\n  }"
         },
       "name" : "this",
-      "nodePortType" : "IO",
-      "execPortType" : "IO",
+      "nodePortType" : "Out",
+      "execPortType" : "In",
       "typeSpec" : "Mat"
       },
     {
       "objectType" : "ExecPort",
-      "name" : "file",
-      "nodePortType" : "Out",
-      "execPortType" : "In",
-      "typeSpec" : "FilePath"
+      "name" : "result",
+      "nodePortType" : "In",
+      "execPortType" : "Out",
+      "typeSpec" : "Scalar[]"
       }
     ],
   "extDeps" : {
     "Matrix" : "*"
     },
-  "presetGUID" : "0FA6919EF004F11F3B004983BB243460",
+  "presetGUID" : "A0B523CAF67389D7FDCD87CC6324D952",
   "code" : "require Matrix;
 
 dfgEntry {
-  this.fromFile(file);
+  result = this.getAll();
 }
 "
   }
